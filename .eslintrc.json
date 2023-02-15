@@ -1,0 +1,74 @@
+{
+  "root": true,
+  "ignorePatterns": [
+    "projects/**/*"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "*.ts"
+      ],
+      "extends": [
+        "airbnb-base",
+        "airbnb-typescript/base",
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@angular-eslint/recommended",
+        "plugin:@angular-eslint/template/process-inline-templates"
+      ],
+      "parserOptions": {
+        "project": "./tsconfig.json"
+      },
+      "plugins": ["simple-import-sort"],
+      "rules": {
+        "@angular-eslint/directive-selector": [
+          "error",
+          {
+            "type": "attribute",
+            "prefix": "app", //to be replaced by your project name, e.g: dms
+            "style": "camelCase"
+          }
+        ],
+        "@angular-eslint/component-selector": [
+          "error",
+          {
+            "type": "element",
+            "prefix": "app", //to be replaced by your project name, e.g: dms, so the component selector would be dms-list
+            "style": "kebab-case"
+          }
+        ],
+        "@typescript-eslint/consistent-type-imports": "warn",
+        "import/prefer-default-export": ["off"],
+        "no-console": ["error", { "allow": ["warn", "error"] }],
+        "simple-import-sort/imports": [
+          "error",
+          {
+            "groups": [
+              // Packages `angular` related packages come first.
+              ["^@angular", "^@?\\w"],
+              // Internal packages.
+              ["^@\/"],
+              // Side effect imports.
+              ["^\\u0000"],
+              // Parent imports. Put `..` last.
+              ["'^\\.\\.(?!/?$)', '^\\.\\./?$'"],
+              // Other relative imports. Put same-folder imports and `.` last.
+              ["'^\\./(?=.*/)(?!/?$)', '^\\.(?!/?$)', '^\\./?$'"],
+              // Style imports.
+              ["^.+\\.?(css)$"]
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "*.html"
+      ],
+      "extends": [
+        "plugin:@angular-eslint/template/recommended"
+      ],
+      "rules": {}
+    }
+  ]
+}
