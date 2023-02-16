@@ -1,0 +1,15 @@
+<nav class="bg-primary-500 py-2 px-4 shadow fixed w-full z-10">
+  <div
+    class="container flex flex-wrap items-center [&>*]:mr-5 {{!isCollapsed ? 'ml-64' : 'ml-24'}} transition-width transition-slowest ease"
+    >
+    <button class="text-xl text-neutral-100" onClick={toggleCollapsed} type="button" (click)="onToggleCollapsed()">
+      <app-icon-chevron-right *ngIf="isCollapsed"/>
+      <app-icon-chevron-left *ngIf="!isCollapsed" />
+    </button>
+    <span
+      class="self-center text-2xl font-extrabold whitespace-nowrap text-neutral-100"
+    >
+          Radya Digital CMS
+        </span>
+  </div>
+</nav>
