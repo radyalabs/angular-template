@@ -1,30 +1,33 @@
 <aside
-  class="{{ !isCollapsed ? 'w-64' : 'w-24'}} fixed h-full drop-shadow-xl z-50 transition-width transition-slowest ease"
-aria-label="Sidebar"
+  class="{{ !isCollapsed ? 'w-64' : 'w-24'}} fixed h-full drop-shadow-xl z-50 transition-width transition-slowest ease delay-100"
+  aria-label="Sidebar"
 >
-<div class="overflow-y-auto bg-gray-50 h-full px-2">
-  <div class="flex justify-center mb-10 p-2">
-    <a routerLink="/">
-      <img
-        src="/assets/brand_primary.png"
-        class="min-h-[5rem] h-5 w-auto object-contain"
-        alt="Brand Logo"
-      />
-    </a>
+  <div class="overflow-y-auto bg-gray-50 h-full px-2">
+    <div class="flex justify-center mb-10 p-2">
+      <a routerLink="/">
+        <img
+          src="{{!isCollapsed ? '/assets/brand_primary.png' : '/assets/brand_mark_primary.png'}}"
+          class="min-h-[5rem] max-h-5 w-auto object-contain"
+          alt="Brand Logo"
+        />
+      </a>
+    </div>
+    <ul class="space-y-2 text-gray-600 p-2">
+      <li>
+        <a routerLink="/"
+           class="flex items-center p-2 text-base font-normal rounded-lg hover:bg-gray-200 {{isCollapsed ? 'justify-center' : ''}}"
+        >
+          <span><app-icon-book/>
+            {{!isCollapsed ? 'List' : ''}}</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/compare"
+           class="flex items-center p-2 text-base font-normal rounded-lg hover:bg-gray-200  {{isCollapsed ? 'justify-center' : ''}}">
+          <span><app-icon-arrow-rounded/>
+            {{!isCollapsed ? 'Compare' : ''}}</span>
+        </a>
+      </li>
+    </ul>
   </div>
-  <ul class="space-y-2 text-gray-600">
-    <li>
-      <a routerLink="/"
-        class="flex items-center p-2 text-base font-normal rounded-lg hover:bg-gray-200"
-      >
-        <span class="ml-3"><app-icon-book /> {{!isCollapsed ? 'List' : ''}}</span>
-      </a>
-    </li>
-    <li>
-      <a routerLink="/compare" class="flex items-center p-2 text-base font-normal rounded-lg hover:bg-gray-200">
-        <span class="ml-3"><app-icon-arrow-rounded /> {{!isCollapsed ? 'Compare' : ''}}</span>
-      </a>
-    </li>
-  </ul>
-</div>
 </aside>

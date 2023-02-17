@@ -1,6 +1,6 @@
 <app-header [isCollapsed]="isCollapsed" (toggleCollapsed)="onToggleCollapsed($event)"/>
 <app-sidebar [isCollapsed]="isCollapsed"/>
-<app-content>
+<app-content [isCollapsed]="isCollapsed" class="bg-wall">
   <router-outlet/>
 </app-content>
 
