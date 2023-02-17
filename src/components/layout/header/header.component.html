@@ -2,7 +2,7 @@
   <div
     class="container flex flex-wrap items-center [&>*]:mr-5 {{!isCollapsed ? 'ml-64' : 'ml-24'}} transition-width transition-slowest ease"
     >
-    <button class="text-xl text-neutral-100" onClick={toggleCollapsed} type="button" (click)="onToggleCollapsed()">
+    <button class="text-xl text-neutral-100" type="button" (click)="onToggleCollapsed()">
       <app-icon-chevron-right *ngIf="isCollapsed"/>
       <app-icon-chevron-left *ngIf="!isCollapsed" />
     </button>

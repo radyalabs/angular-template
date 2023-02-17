@@ -37,7 +37,7 @@
             "style": "kebab-case"
           }
         ],
-        "@typescript-eslint/consistent-type-imports": "warn",
+        "@typescript-eslint/consistent-type-imports": "off",
         "import/extensions": ["off"],
         "import/prefer-default-export": ["off"],
         "no-console": ["error", { "allow": ["warn", "error"] }],

@@ -1,10 +1,9 @@
-import {
-  Component, EventEmitter, Input, Output,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { IconChevronLeftComponent } from '@/components/icons/icon-chevron-left.component';
 import { IconChevronRightComponent } from '@/components/icons/icon-chevron-right.component';
+import { LayoutService } from '@/services/layout.service';
 
 @Component({
   selector: 'app-header',
@@ -13,12 +12,20 @@ import { IconChevronRightComponent } from '@/components/icons/icon-chevron-right
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent {
-  @Input() isCollapsed = false;
+export class HeaderComponent implements OnInit {
+  isCollapsed = false;
 
-  @Output() toggleCollapsed: EventEmitter<boolean> = new EventEmitter<boolean>();
+  constructor(
+    private layoutService: LayoutService,
+  ) { }
+
+  ngOnInit() {
+    this.layoutService.collapsedState.subscribe((state) => {
+      this.isCollapsed = state;
+    });
+  }
 
   onToggleCollapsed() {
-    this.toggleCollapsed.emit(!this.isCollapsed);
+    this.layoutService.toggleCollapse(!this.isCollapsed);
   }
 }

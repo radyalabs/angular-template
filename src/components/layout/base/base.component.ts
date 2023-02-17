@@ -15,9 +15,5 @@ import { SidebarComponent } from '@/components/layout/sidebar/sidebar.component'
 
 })
 export class BaseComponent {
-  isCollapsed = false;
 
-  onToggleCollapsed(value: boolean) {
-    this.isCollapsed = value;
-  }
 }
