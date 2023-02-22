@@ -1,0 +1,9 @@
+version: '2.15.1'
+
+services:
+  angular-template: 
+    image: angular-template:dev
+    build: .
+    container_name: angular-template_c
+    ports: 
+      - 4200:80
