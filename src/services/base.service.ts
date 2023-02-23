@@ -27,7 +27,7 @@ export class BaseService {
    * ## Example
    *
    * ```ts
-   * this.authService.getData$().subscribe({
+   * this.getData$('my-api', {page: 1, row: 10}).subscribe({
    *   next: (value) => {
    *      console.log({value})
    *   },
@@ -121,7 +121,7 @@ export class BaseService {
    * ## Example
    * ```ts
    * async getDataUser () {
-   *    const { alert, data } = await this.authService.getData$()
+   *    const { alert, data } = await this.getData$('my-api', {page: 1, row: 10})
    *    // Do something
    * }
    *

@@ -8,33 +8,33 @@ import { RequestInterceptor } from './interceptors/request.interceptor';
 import { ErrorHandlerInterceptor } from './interceptors/error-handler.interceptor';
 import { UnauthorizedComponent } from './modules/unauthorized/unauthorized.component';
 import { NotFoundComponent } from './modules/not-found/not-found.component';
+import { CustomPipeModule } from './pipes/custom.pipes';
 
 export let AppInjector: Injector;
 @NgModule({
-  declarations: [
-    AppComponent,
-    UnauthorizedComponent,
-    NotFoundComponent,
-  ],
+  declarations: [AppComponent, UnauthorizedComponent, NotFoundComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    CustomPipeModule,
   ],
   providers: [
     {
-      provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true
+      provide: HTTP_INTERCEPTORS,
+      useClass: RequestInterceptor,
+      multi: true,
     },
     {
-      provide: HTTP_INTERCEPTORS, useClass: ErrorHandlerInterceptor, multi: true
-    }
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorHandlerInterceptor,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
 })
 export class AppModule {
-  constructor(
-    private injector: Injector
-  ) {
-    AppInjector = this.injector
+  constructor(private injector: Injector) {
+    AppInjector = this.injector;
   }
 }
