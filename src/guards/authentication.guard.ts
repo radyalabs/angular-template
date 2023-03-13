@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import {
+  ActivatedRouteSnapshot,
   CanActivate,
   CanActivateChild,
   Router,
+  RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -18,24 +20,39 @@ export class AuthenticationGuard implements CanActivate, CanActivateChild {
     private router: Router
   ) {}
 
-  canActivate():
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ):
     | Observable<boolean | UrlTree>
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    return this.authService.isLoggedIn() ? true : this.unauthorizedHandler();
+    return this.authService.isLoggedIn()
+      ? true
+      : this.unauthorizedHandler(route, state);
   }
 
-  canActivateChild():
+  canActivateChild(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ):
     | Observable<boolean | UrlTree>
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    return this.canActivate();
+    return this.canActivate(route, state);
   }
 
-  unauthorizedHandler(): boolean {
-    this.router.navigate(['/unauthorized']).then(() => {
+  unauthorizedHandler(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): boolean {
+    const params = {
+      redirectTo: state.url,
+    };
+    this.router.navigate(['/login'], { queryParams: params }).then(() => {
+      alert('Please login');
       localStorage.clear();
     });
 

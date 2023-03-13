@@ -1,5 +1,9 @@
-import { APP_KEY } from '@/enums/key.enum';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+
+import { APP_KEY } from '@/enums/key.enum';
+import { LoginParams, LoginResponse } from '@/modules/login/login.params';
+import { BaseResponse } from '@/types/base-response.types';
 import { BaseService } from './base.service';
 
 @Injectable({
@@ -8,6 +12,12 @@ import { BaseService } from './base.service';
 export class AuthenticationService extends BaseService {
   public isLoggedIn(): boolean {
     return !!localStorage.getItem(APP_KEY.token);
+  }
+
+  login(body: LoginParams): Observable<BaseResponse<LoginResponse>> {
+    return this.post$<LoginResponse>('/api/auth/login', body, {
+      culture: 'id-ID',
+    });
   }
 
   logout() {

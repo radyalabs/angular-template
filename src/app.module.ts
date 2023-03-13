@@ -9,15 +9,24 @@ import { ErrorHandlerInterceptor } from './interceptors/error-handler.intercepto
 import { UnauthorizedComponent } from './modules/unauthorized/unauthorized.component';
 import { NotFoundComponent } from './modules/not-found/not-found.component';
 import { CustomPipeModule } from './pipes/custom.pipes';
+import { LoginComponent } from './modules/login/login.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 export let AppInjector: Injector;
 @NgModule({
-  declarations: [AppComponent, UnauthorizedComponent, NotFoundComponent],
+  declarations: [
+    AppComponent,
+    UnauthorizedComponent,
+    NotFoundComponent,
+    LoginComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     CustomPipeModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [
     {

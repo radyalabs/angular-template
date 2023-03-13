@@ -1,10 +1,8 @@
 export interface BaseResponse<T> {
-  alert: AlertResponse;
-  data: T;
-}
-
-export interface AlertResponse {
-  code: string;
+  isSuccess: boolean;
+  statusCode: string;
   message: string;
-  inner_message: string;
+  errorCode: boolean;
+  path: string;
+  payload: T;
 }

@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, lastValueFrom } from 'rxjs';
+import { Router, UrlSerializer } from '@angular/router';
+
 import { BaseResponse } from '@/types/base-response.types';
 import { environment } from '@/environments/environment';
 import { AppInjector } from '@/app.module';
-import { Router, UrlSerializer } from '@angular/router';
 
 export interface Foo {
   bar: string;
@@ -205,6 +206,7 @@ export class BaseService {
     const urlTree = this.router.createUrlTree([url], {
       queryParams: queryParams,
     });
+
     return `${this.baseUrl}${this.serializer.serialize(urlTree)}`;
   }
 }

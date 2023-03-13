@@ -6,11 +6,14 @@ import { BaseComponent } from '@/components/layout/base/base.component';
 import { AuthenticationGuard } from './guards/authentication.guard';
 import { UnauthorizedComponent } from './modules/unauthorized/unauthorized.component';
 import { NotFoundComponent } from './modules/not-found/not-found.component';
+import { LoginComponent } from './modules/login/login.component';
 
 const routes: Routes = [
   {
     path: '',
     component: BaseComponent,
+    canActivate: [AuthenticationGuard],
+    canActivateChild: [AuthenticationGuard],
     children: [
       {
         path: 'dashboard',
@@ -20,6 +23,14 @@ const routes: Routes = [
           ),
       },
     ],
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
+  {
+    path: 'not-found',
+    component: NotFoundComponent,
   },
   {
     path: 'protected',
@@ -33,10 +44,6 @@ const routes: Routes = [
   {
     path: 'unauthorized',
     component: UnauthorizedComponent,
-  },
-  {
-    path: 'not-found',
-    component: NotFoundComponent,
   },
   {
     path: '**',
