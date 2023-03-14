@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { APP_KEY } from '@/enums/key.enum';
-import { LoginParams, LoginResponse } from '@/modules/login/login.params';
+import { LoginParams, LoginResponse } from '@/modules/login/login.interface';
 import { BaseResponse } from '@/types/base-response.types';
 import { BaseService } from './base.service';
 
