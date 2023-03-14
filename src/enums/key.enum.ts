@@ -1,3 +1,4 @@
 export enum APP_KEY {
-    token = 'TOKEN'
+  token = 'TOKEN',
+  expiresIn = 'EXP',
 }

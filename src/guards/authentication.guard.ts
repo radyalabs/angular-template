@@ -10,6 +10,7 @@ import {
 import { Observable } from 'rxjs';
 
 import { AuthenticationService } from '@/services/authentication.service';
+import { APP_KEY } from '@/enums/key.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +29,7 @@ export class AuthenticationGuard implements CanActivate, CanActivateChild {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    return this.authService.isLoggedIn()
+    return this.authService.isLoggedIn() && this.checkSession()
       ? true
       : this.unauthorizedHandler(route, state);
   }
@@ -42,6 +43,13 @@ export class AuthenticationGuard implements CanActivate, CanActivateChild {
     | boolean
     | UrlTree {
     return this.canActivate(route, state);
+  }
+
+  checkSession(): boolean {
+    const currentTime = new Date().getTime();
+    const currentSession = Number(localStorage.getItem(APP_KEY.expiresIn));
+
+    return currentTime < currentSession;
   }
 
   unauthorizedHandler(

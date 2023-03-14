@@ -16,6 +16,7 @@ import { APP_KEY } from '@/enums/key.enum';
 import { AuthenticationService } from '@/services/authentication.service';
 import { StorageService } from '@/services/storage.service';
 import { StorageTypes } from '@/types/storage-types';
+import jwtDecode from 'jwt-decode';
 
 @Component({
   selector: 'app-login',
@@ -63,14 +64,27 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.loginForm.value).subscribe({
       next: (value) => {
         const { payload, isSuccess, message } = value;
+
         if (!isSuccess) {
           window.alert(message);
           return;
         }
-        const data: StorageTypes = {
-          key: APP_KEY.token,
-          value: `${payload.tokenScheme} ${payload.token}`,
-        };
+
+        const decoded = jwtDecode(payload.token) as any;
+        const date = new Date(0);
+        date.setUTCSeconds(decoded.exp);
+        const expDate = date.getTime().toString();
+
+        const data: StorageTypes[] = [
+          {
+            key: APP_KEY.token,
+            value: `${payload.tokenScheme} ${payload.token}`,
+          },
+          {
+            key: APP_KEY.expiresIn,
+            value: expDate,
+          },
+        ];
 
         this.storageService.storeKeys(data);
         this.router.navigate([this.redirectTo || '/dashboard']);
