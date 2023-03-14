@@ -17,6 +17,7 @@ import { AuthenticationService } from '@/services/authentication.service';
 import { StorageService } from '@/services/storage.service';
 import { StorageTypes } from '@/types/storage-types';
 import jwtDecode from 'jwt-decode';
+import { CookieService } from '@/services/cookie.service';
 
 @Component({
   selector: 'app-login',
@@ -33,7 +34,8 @@ export class LoginComponent implements OnInit {
     private authService: AuthenticationService,
     private storageService: StorageService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private cookieService: CookieService
   ) {}
 
   ngOnInit(): void {
@@ -86,7 +88,17 @@ export class LoginComponent implements OnInit {
           },
         ];
 
-        this.storageService.storeKeys(data);
+        // set to local storage
+        // this.storageService.storeKeys(data);
+
+        // set cookies
+        this.cookieService.setCookies(
+          data,
+          new Date(Number(expDate)),
+          true,
+          'strict'
+        );
+
         this.router.navigate([this.redirectTo || '/dashboard']);
       },
       error: (error) => {
@@ -103,5 +115,9 @@ export class LoginComponent implements OnInit {
     this.route.queryParams.subscribe((value) => {
       this.redirectTo = value['redirectTo'] || null;
     });
+  }
+
+  setCookies(cookies: string) {
+    document.cookie = cookies;
   }
 }

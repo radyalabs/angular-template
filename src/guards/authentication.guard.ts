@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 
 import { AuthenticationService } from '@/services/authentication.service';
 import { APP_KEY } from '@/enums/key.enum';
+import { CookieService } from '@/services/cookie.service';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,8 @@ import { APP_KEY } from '@/enums/key.enum';
 export class AuthenticationGuard implements CanActivate, CanActivateChild {
   constructor(
     private authService: AuthenticationService,
-    private router: Router
+    private router: Router,
+    private cookieService: CookieService
   ) {}
 
   canActivate(
@@ -47,7 +49,9 @@ export class AuthenticationGuard implements CanActivate, CanActivateChild {
 
   checkSession(): boolean {
     const currentTime = new Date().getTime();
-    const currentSession = Number(localStorage.getItem(APP_KEY.expiresIn));
+    const currentSession = Number(
+      this.cookieService.getCookies(APP_KEY.expiresIn)
+    );
 
     return currentTime < currentSession;
   }
