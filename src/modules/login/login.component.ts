@@ -10,13 +10,13 @@ import {
   Params,
   Router,
 } from '@angular/router';
+import jwtDecode from 'jwt-decode';
 
 import { APP_KEY } from '@/enums/key.enum';
 import { AuthenticationService } from '@/services/authentication.service';
+import { CookieService } from '@/services/cookie.service';
 import { StorageService } from '@/services/storage.service';
 import { StorageTypes } from '@/types/storage-types';
-import jwtDecode from 'jwt-decode';
-import { CookieService } from '@/services/cookie.service';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +25,9 @@ import { CookieService } from '@/services/cookie.service';
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
+
   isLoading = false;
+
   redirectTo!: Params;
 
   constructor(
@@ -34,7 +36,7 @@ export class LoginComponent implements OnInit {
     private storageService: StorageService,
     private router: Router,
     private route: ActivatedRoute,
-    private cookieService: CookieService
+    private cookieService: CookieService,
   ) {}
 
   ngOnInit(): void {
@@ -95,7 +97,7 @@ export class LoginComponent implements OnInit {
           data,
           new Date(Number(expDate)),
           true,
-          'strict'
+          'strict',
         );
 
         this.router.navigate([this.redirectTo || '/dashboard']);

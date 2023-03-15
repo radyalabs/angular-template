@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { APP_KEY } from '@/enums/key.enum';
-import { LoginParams, LoginResponse } from '@/modules/login/login.interface';
-import { BaseResponse } from '@/types/base-response.types';
-import { BaseService } from './base.service';
 import { AppInjector } from '@/app.module';
+import { APP_KEY } from '@/enums/key.enum';
+import { LoginResponse } from '@/modules/login/login.interfaces';
+import { LoginParams } from '@/modules/login/login.types';
+import { BaseResponse } from '@/types/base-response.types';
+
+import { BaseService } from './base.service';
 import { CookieService } from './cookie.service';
 
 @Injectable({
@@ -16,8 +18,8 @@ export class AuthenticationService extends BaseService {
 
   public isLoggedIn(): boolean {
     return (
-      !!localStorage.getItem(APP_KEY.token) ||
-      !!this.cookieService.getCookies(APP_KEY.token)
+      !!localStorage.getItem(APP_KEY.token)
+      || !!this.cookieService.getCookies(APP_KEY.token)
     );
   }
 
