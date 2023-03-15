@@ -7,7 +7,6 @@ import {
 } from '@angular/forms';
 import {
   ActivatedRoute,
-  ActivatedRouteSnapshot,
   Params,
   Router,
 } from '@angular/router';

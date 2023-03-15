@@ -6,12 +6,12 @@ import {
   HttpInterceptor,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { StorageService } from '@/services/storage.service';
 import { APP_KEY } from '@/enums/key.enum';
+import { CookieService } from '@/services/cookie.service';
 
 @Injectable()
 export class RequestInterceptor implements HttpInterceptor {
-  constructor(private storageService: StorageService) {}
+  constructor(private cookieService: CookieService) {}
 
   intercept(
     request: HttpRequest<unknown>,
@@ -24,7 +24,7 @@ export class RequestInterceptor implements HttpInterceptor {
   modifiedRequest(request: HttpRequest<unknown>) {
     const modified = request.clone({
       setHeaders: {
-        Authorization: `Bearer ${this.storageService.getKeys(APP_KEY.token)}`,
+        Authorization: this.cookieService.getCookies(APP_KEY.token),
       },
     });
     return modified;
