@@ -1,5 +1,6 @@
-import { environment } from '@/environments/environment';
 import { of } from 'rxjs';
+
+import { environment } from '@/environments/environment';
 
 /**
  * Can be used for handling error per component or module scope

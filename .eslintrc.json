@@ -42,6 +42,7 @@
         "import/prefer-default-export": ["off"],
         "no-console": ["error", { "allow": ["warn", "error"] }],
         "linebreak-style": ["off"],
+        "class-methods-use-this": "warn",
         "simple-import-sort/imports": [
           "error",
           {

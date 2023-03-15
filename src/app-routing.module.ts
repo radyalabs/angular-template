@@ -3,10 +3,11 @@ import type { Routes } from '@angular/router';
 import { RouterModule } from '@angular/router';
 
 import { BaseComponent } from '@/components/layout/base/base.component';
+
 import { AuthenticationGuard } from './guards/authentication.guard';
-import { UnauthorizedComponent } from './modules/unauthorized/unauthorized.component';
-import { NotFoundComponent } from './modules/not-found/not-found.component';
 import { LoginComponent } from './modules/login/login.component';
+import { NotFoundComponent } from './modules/not-found/not-found.component';
+import { UnauthorizedComponent } from './modules/unauthorized/unauthorized.component';
 
 const routes: Routes = [
   {
@@ -22,10 +23,9 @@ const routes: Routes = [
       },
       {
         path: 'dashboard',
-        loadChildren: () =>
-          import('./modules/dashboard/dashboard.module').then(
-            (m) => m.DashboardModule
-          ),
+        loadChildren: () => import('./modules/dashboard/dashboard.module').then(
+          (m) => m.DashboardModule,
+        ),
       },
     ],
   },
@@ -39,10 +39,9 @@ const routes: Routes = [
   },
   {
     path: 'protected',
-    loadChildren: () =>
-      import('./modules/protected/protected.module').then(
-        (m) => m.ProtectedModule
-      ),
+    loadChildren: () => import('./modules/protected/protected.module').then(
+      (m) => m.ProtectedModule,
+    ),
     canActivate: [AuthenticationGuard],
     canActivateChild: [AuthenticationGuard],
   },
