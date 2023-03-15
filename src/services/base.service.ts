@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, lastValueFrom } from 'rxjs';
-import { BaseResponse } from '@/types/base-response.types';
-import { environment } from '@/environments/environment';
-import { AppInjector } from '@/app.module';
 import { Router, UrlSerializer } from '@angular/router';
+import { lastValueFrom, Observable } from 'rxjs';
+
+import { AppInjector } from '@/app.module';
+import { environment } from '@/environments/environment';
+import { BaseResponse } from '@/types/base-response.types';
 
 export interface Foo {
   bar: string;
@@ -15,7 +16,9 @@ export interface Foo {
 })
 export class BaseService {
   serializer = AppInjector.get(UrlSerializer);
+
   router = AppInjector.get(Router);
+
   baseUrl = environment.apiUrl;
 
   constructor(public http: HttpClient) {}
@@ -44,7 +47,7 @@ export class BaseService {
    * declared in request.helper.ts for general handling strategy
    *
    */
-  protected get$<T>(url: string, params?: any): Observable<BaseResponse<T>> {
+  protected get$<T>(url: string, params?: Record<string, unknown>): Observable<BaseResponse<T>> {
     return this.http.get<BaseResponse<T>>(this.serializeUrl(url, params));
   }
 
@@ -59,12 +62,12 @@ export class BaseService {
    */
   protected post$<T>(
     url: string,
-    body: any,
-    params?: any
+    body: Record<string, unknown>,
+    params?: Record<string, unknown>,
   ): Observable<BaseResponse<T>> {
     return this.http.post<BaseResponse<T>>(
       this.serializeUrl(url, params),
-      body
+      body,
     );
   }
 
@@ -78,8 +81,8 @@ export class BaseService {
    */
   protected put$<T>(
     url: string,
-    body: any,
-    params?: any
+    body: Record<string, unknown>,
+    params?: Record<string, unknown>,
   ): Observable<BaseResponse<T>> {
     return this.http.put<BaseResponse<T>>(this.serializeUrl(url, params), body);
   }
@@ -94,12 +97,12 @@ export class BaseService {
    */
   protected patch$<T>(
     url: string,
-    body: any,
-    params: any
+    body: Record<string, unknown>,
+    params: Record<string, unknown>,
   ): Observable<BaseResponse<T>> {
     return this.http.patch<BaseResponse<T>>(
       this.serializeUrl(url, params),
-      body
+      body,
     );
   }
 
@@ -110,7 +113,7 @@ export class BaseService {
    * ## Example
    * Please refer to get$ function
    */
-  protected delete$<T>(url: string, params?: any): Observable<BaseResponse<T>> {
+  protected delete$<T>(url: string, params?: Record<string, unknown>): Observable<BaseResponse<T>> {
     return this.http.delete<BaseResponse<T>>(this.serializeUrl(url, params));
   }
 
@@ -127,9 +130,9 @@ export class BaseService {
    *
    * ```
    */
-  protected async get<T>(url: string, params?: any): Promise<BaseResponse<T>> {
+  protected async get<T>(url: string, params?: Record<string, unknown>): Promise<BaseResponse<T>> {
     return lastValueFrom(
-      this.http.get(this.serializeUrl(url, params))
+      this.http.get(this.serializeUrl(url, params)),
     ) as Promise<BaseResponse<T>>;
   }
 
@@ -141,11 +144,11 @@ export class BaseService {
    */
   protected async post<T>(
     url: string,
-    body: any,
-    params?: any
+    body: Record<string, unknown>,
+    params?: Record<string, unknown>,
   ): Promise<BaseResponse<T>> {
     return lastValueFrom(
-      this.http.post(this.serializeUrl(url, params), body)
+      this.http.post(this.serializeUrl(url, params), body),
     ) as Promise<BaseResponse<T>>;
   }
 
@@ -157,11 +160,11 @@ export class BaseService {
    */
   protected async put<T>(
     url: string,
-    body: any,
-    params?: any
+    body: Record<string, unknown>,
+    params?: Record<string, unknown>,
   ): Promise<BaseResponse<T>> {
     return lastValueFrom(
-      this.http.put(this.serializeUrl(url, params), body)
+      this.http.put(this.serializeUrl(url, params), body),
     ) as Promise<BaseResponse<T>>;
   }
 
@@ -173,10 +176,10 @@ export class BaseService {
    */
   protected async delete<T>(
     url: string,
-    params?: any
+    params?: Record<string, unknown>,
   ): Promise<BaseResponse<T>> {
     return lastValueFrom(
-      this.http.delete(this.serializeUrl(url, params))
+      this.http.delete(this.serializeUrl(url, params)),
     ) as Promise<BaseResponse<T>>;
   }
 
@@ -188,12 +191,12 @@ export class BaseService {
    */
   protected patch<T>(
     url: string,
-    body: any,
-    params: any
+    body: Record<string, unknown>,
+    params: Record<string, unknown>,
   ): Observable<BaseResponse<T>> {
     return this.http.patch<BaseResponse<T>>(
       this.serializeUrl(url, params),
-      body
+      body,
     );
   }
 
@@ -201,9 +204,9 @@ export class BaseService {
    * a function which will return URLencoded format from given parameter
    *
    */
-  serializeUrl(url: string, queryParams: any): string {
+  serializeUrl(url: string, queryParams?: Record<string, unknown>): string {
     const urlTree = this.router.createUrlTree([url], {
-      queryParams: queryParams,
+      queryParams,
     });
     return `${this.baseUrl}${this.serializer.serialize(urlTree)}`;
   }

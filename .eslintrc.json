@@ -41,6 +41,7 @@
         "import/extensions": ["off"],
         "import/prefer-default-export": ["off"],
         "no-console": ["error", { "allow": ["warn", "error"] }],
+        "linebreak-style": ["off"],
         "simple-import-sort/imports": [
           "error",
           {
@@ -72,7 +73,5 @@
       "rules": {}
     }
   ],
-  "rules": {
-    "linebreak-style": ["error", "process.env.NODE_ENV === 'prod' ? 'unix' : 'windows'"]
-  }
+  "rules": {}
 }
