@@ -11,21 +11,16 @@ import { AppKey } from '@/enums/key.enum';
 import { getCookies } from '@/helpers/cookies.helper';
 
 @Injectable()
-export class RequestInterceptor implements HttpInterceptor {
+export class ModifyHeaderInterceptor implements HttpInterceptor {
   intercept(
     request: HttpRequest<unknown>,
     next: HttpHandler,
   ): Observable<HttpEvent<unknown>> {
-    const modifiedRequest = this.modifiedRequest(request);
-    return next.handle(modifiedRequest);
-  }
-
-  modifiedRequest(request: HttpRequest<unknown>) {
-    const modified = request.clone({
+    const modifiedRequest = request.clone({
       setHeaders: {
         Authorization: getCookies(AppKey.token),
       },
     });
-    return modified;
+    return next.handle(modifiedRequest);
   }
 }

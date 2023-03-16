@@ -1,4 +1,4 @@
-export enum APP_KEY {
+export enum AppKey {
   token = 'TOKEN',
   expiresIn = 'EXP',
 }

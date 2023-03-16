@@ -10,13 +10,13 @@ import {
   Params,
   Router,
 } from '@angular/router';
-
-import { APP_KEY } from '@/enums/key.enum';
-import { AuthenticationService } from '@/services/authentication.service';
-import { StorageService } from '@/services/storage.service';
-import { StorageTypes } from '@/types/storage-types';
 import jwtDecode from 'jwt-decode';
-import { CookieService } from '@/services/cookie.service';
+
+import { AppKey } from '@/enums/key.enum';
+import { setCookies } from '@/helpers/cookies.helper';
+import { storeLocalStorageKeys } from '@/helpers/localStorage.helper';
+import { AuthenticationService } from '@/services/authentication.service';
+import { StorageTypes } from '@/types/storage-types';
 
 @Component({
   selector: 'app-login',
@@ -25,16 +25,16 @@ import { CookieService } from '@/services/cookie.service';
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
+
   isLoading = false;
+
   redirectTo!: Params;
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthenticationService,
-    private storageService: StorageService,
     private router: Router,
     private route: ActivatedRoute,
-    private cookieService: CookieService
   ) {}
 
   ngOnInit(): void {
@@ -78,24 +78,24 @@ export class LoginComponent implements OnInit {
 
         const data: StorageTypes[] = [
           {
-            key: APP_KEY.token,
+            key: AppKey.token,
             value: `${payload.tokenScheme} ${payload.token}`,
           },
           {
-            key: APP_KEY.expiresIn,
+            key: AppKey.expiresIn,
             value: expDate,
           },
         ];
 
         // set to local storage
-        // this.storageService.storeKeys(data);
+        storeLocalStorageKeys(data);
 
         // set cookies
-        this.cookieService.setCookies(
+        setCookies(
           data,
           new Date(Number(expDate)),
           true,
-          'strict'
+          'strict',
         );
 
         this.router.navigate([this.redirectTo || '/dashboard']);
@@ -114,9 +114,5 @@ export class LoginComponent implements OnInit {
     this.route.queryParams.subscribe((value) => {
       this.redirectTo = value['redirectTo'] || null;
     });
-  }
-
-  setCookies(cookies: string) {
-    document.cookie = cookies;
   }
 }

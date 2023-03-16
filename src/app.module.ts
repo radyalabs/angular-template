@@ -1,16 +1,16 @@
 import { Injector, NgModule } from '@angular/core';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { RequestInterceptor } from './interceptors/request.interceptor';
 import { ErrorHandlerInterceptor } from './interceptors/error-handler.interceptor';
-import { UnauthorizedComponent } from './modules/unauthorized/unauthorized.component';
-import { NotFoundComponent } from './modules/not-found/not-found.component';
-import { CustomPipeModule } from './pipes/custom.pipes';
+import { ModifyHeaderInterceptor } from './interceptors/modify-header.interceptor';
 import { LoginComponent } from './modules/login/login.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NotFoundComponent } from './modules/not-found/not-found.component';
+import { UnauthorizedComponent } from './modules/unauthorized/unauthorized.component';
+import { CustomPipeModule } from './pipes/custom.pipes';
 
 export let AppInjector: Injector;
 @NgModule({
@@ -31,7 +31,7 @@ export let AppInjector: Injector;
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: RequestInterceptor,
+      useClass: ModifyHeaderInterceptor,
       multi: true,
     },
     {

@@ -1,23 +1,22 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { APP_KEY } from '@/enums/key.enum';
-import { LoginParams, LoginResponse } from '@/modules/login/login.interface';
+import { AppKey } from '@/enums/key.enum';
+import { deleteCookies, getCookies } from '@/helpers/cookies.helper';
+import { LoginResponse } from '@/modules/login/login.interfaces';
+import { LoginParams } from '@/modules/login/login.types';
 import { BaseResponse } from '@/types/base-response.types';
+
 import { BaseService } from './base.service';
-import { AppInjector } from '@/app.module';
-import { CookieService } from './cookie.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthenticationService extends BaseService {
-  cookieService = AppInjector.get(CookieService);
-
-  public isLoggedIn(): boolean {
+  isLoggedIn(): boolean {
     return (
-      !!localStorage.getItem(APP_KEY.token) ||
-      !!this.cookieService.getCookies(APP_KEY.token)
+      !!localStorage.getItem(AppKey.token)
+      || !!getCookies(AppKey.token)
     );
   }
 
@@ -28,7 +27,7 @@ export class AuthenticationService extends BaseService {
   }
 
   logout() {
-    return this.cookieService.deleteCookies([APP_KEY.token, APP_KEY.expiresIn]);
+    return deleteCookies([AppKey.token, AppKey.expiresIn]);
   }
 
   getData$() {
