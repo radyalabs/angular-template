@@ -12,6 +12,7 @@ import { NotFoundComponent } from './modules/not-found/not-found.component';
 import { UnauthorizedComponent } from './modules/unauthorized/unauthorized.component';
 import { CustomPipeModule } from './pipes/custom.pipes';
 
+// eslint-disable-next-line import/no-mutable-exports
 export let AppInjector: Injector;
 @NgModule({
   declarations: [

@@ -1,16 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { IconChevronLeftComponent } from '@/components/icons/icon-chevron-left.component';
-import { IconChevronRightComponent } from '@/components/icons/icon-chevron-right.component';
+import { IconMenuCloseComponent } from '@/components/icons/icon-menu-close.component';
+import { IconMenuOpenComponent } from '@/components/icons/icon-menu-open.component';
 import { LayoutService } from '@/services/layout.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, IconChevronRightComponent, IconChevronLeftComponent],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
+  imports: [
+    CommonModule, IconMenuOpenComponent,
+    IconMenuCloseComponent,
+  ],
 })
 export class HeaderComponent implements OnInit {
   isCollapsed = false;
