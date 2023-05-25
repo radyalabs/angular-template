@@ -27,6 +27,17 @@ const routes: Routes = [
           (m) => m.DashboardModule,
         ),
       },
+      {
+        path: 'crud-example',
+        loadChildren: () => import('./modules/crud-example/crud-example.module').then(
+          (m) => m.CrudExampleModule,
+        ),
+      },
+      {
+        path: '**',
+        redirectTo: 'not-found',
+        pathMatch: 'full',
+      },
     ],
   },
   {
@@ -48,11 +59,6 @@ const routes: Routes = [
   {
     path: 'unauthorized',
     component: UnauthorizedComponent,
-  },
-  {
-    path: '**',
-    redirectTo: 'not-found',
-    pathMatch: 'full',
   },
 ];
 

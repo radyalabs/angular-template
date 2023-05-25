@@ -62,6 +62,41 @@ export class LoginComponent implements OnInit {
     this.isLoading = true;
     this.loginForm.disable();
 
+    const response = {
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOiIyMDIzLTA1LTI2VDA0OjM2OjE3WiIsInRva2VuU2NoZW1lIjoiYmVhcmVyIn0.tsrq2zkiwnCEJGePVUvLRyWP4NTta1SZBQIQXWLQQyg',
+      tokenScheme: 'bearer',
+    };
+
+    const decoded = jwtDecode(response.token) as any;
+    const date = new Date(0);
+    date.setUTCSeconds(decoded.exp);
+    const expDate = date.getTime().toString();
+
+    const data: StorageTypes[] = [
+      {
+        key: AppKey.token,
+        value: `${response.tokenScheme} ${response.token}`,
+      },
+      {
+        key: AppKey.expiresIn,
+        value: expDate,
+      },
+    ];
+
+    // set to local storage
+    // storeLocalStorageKeys(data);
+
+    // set cookies
+    setCookies(
+      data,
+      new Date(Number(expDate)),
+      true,
+      'strict',
+    );
+
+    this.router.navigate([this.redirectTo || '/dashboard']);
+
+    /*
     this.authService.login(this.loginForm.value).subscribe({
       next: (value) => {
         const { payload, isSuccess, message } = value;
@@ -71,7 +106,12 @@ export class LoginComponent implements OnInit {
           return;
         }
 
-        const decoded = jwtDecode(payload.token) as any;
+        const response = {
+          token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOiIyMDIzLTA1LTI2VDA0OjM2OjE3WiIsInRva2VuU2NoZW1lIjoiYmVhcmVyIn0.tsrq2zkiwnCEJGePVUvLRyWP4NTta1SZBQIQXWLQQyg',
+          tokenScheme: 'bearer',
+        };
+
+        const decoded = jwtDecode(response.token) as any;
         const date = new Date(0);
         date.setUTCSeconds(decoded.exp);
         const expDate = date.getTime().toString();
@@ -79,7 +119,7 @@ export class LoginComponent implements OnInit {
         const data: StorageTypes[] = [
           {
             key: AppKey.token,
-            value: `${payload.tokenScheme} ${payload.token}`,
+            value: `${response.tokenScheme} ${response.token}`,
           },
           {
             key: AppKey.expiresIn,
@@ -108,6 +148,7 @@ export class LoginComponent implements OnInit {
         this.loginForm.enable();
       },
     });
+    */
   }
 
   listenForRoute() {

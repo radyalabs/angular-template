@@ -14,10 +14,7 @@ import { BaseService } from './base.service';
 })
 export class AuthenticationService extends BaseService {
   isLoggedIn(): boolean {
-    return (
-      !!localStorage.getItem(AppKey.token)
-      || !!getCookies(AppKey.token)
-    );
+    return !!getCookies(AppKey.token);
   }
 
   login(body: LoginParams): Observable<BaseResponse<LoginResponse>> {
