@@ -17,7 +17,7 @@ export class AuthenticationService extends BaseService {
     return !!getCookies(AppKey.token);
   }
 
-  login(body: LoginParams): Observable<BaseResponse<LoginResponse>> {
+  login(body: LoginParams): Observable<LoginResponse> {
     return this.post$<LoginResponse>('/api/auth/login', body, {
       culture: 'id-ID',
     });

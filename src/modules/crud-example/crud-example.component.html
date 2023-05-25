@@ -1,1 +1,23 @@
-<p>crud-example works!</p>
+<div>
+    <div *ngIf="listTodo" class="my-4">
+        <h2 class="font-bold text-1xl mb-1">Get Todos Promise</h2>
+        <div class="pl-5">
+            <ul class="list-disc">
+                <li *ngFor="let todo of listTodo">
+                    {{ todo.title }} <img src="assets/images/checked.png" alt="check-status" *ngIf="todo.completed" style="display: inline-block; width: 15px">
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div *ngIf="listTodo$ | async" class="my-4">
+        <h2 class="font-bold text-1xl mb-1">Get Todos Observable</h2>
+        <div class="pl-5">
+            <ul class="list-disc">
+                <li *ngFor="let todo of listTodo$ | async">
+                    {{ todo.title }} <img src="assets/images/checked.png" alt="check-status" *ngIf="todo.completed" style="display: inline-block; width: 15px">
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

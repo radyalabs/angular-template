@@ -49,8 +49,8 @@ export class BaseService {
    * declared in request.helper.ts for general handling strategy
    *
    */
-  protected get$<T>(url: string, params?: Record<string, unknown>): Observable<BaseResponse<T>> {
-    return this.http.get<BaseResponse<T>>(this.serializeUrl(url, params));
+  protected get$<T>(url: string, params?: Record<string, unknown>): Observable<T> {
+    return this.http.get<T>(this.serializeUrl(url, params));
   }
 
   /**
@@ -66,8 +66,8 @@ export class BaseService {
     url: string,
     body: Record<string, unknown>,
     params?: Record<string, unknown>,
-  ): Observable<BaseResponse<T>> {
-    return this.http.post<BaseResponse<T>>(
+  ): Observable<T> {
+    return this.http.post<T>(
       this.serializeUrl(url, params),
       body,
     );
@@ -85,8 +85,8 @@ export class BaseService {
     url: string,
     body: Record<string, unknown>,
     params?: Record<string, unknown>,
-  ): Observable<BaseResponse<T>> {
-    return this.http.put<BaseResponse<T>>(this.serializeUrl(url, params), body);
+  ): Observable<T> {
+    return this.http.put<T>(this.serializeUrl(url, params), body);
   }
 
   /**
@@ -101,8 +101,8 @@ export class BaseService {
     url: string,
     body: Record<string, unknown>,
     params: Record<string, unknown>,
-  ): Observable<BaseResponse<T>> {
-    return this.http.patch<BaseResponse<T>>(
+  ): Observable<T> {
+    return this.http.patch<T>(
       this.serializeUrl(url, params),
       body,
     );
@@ -115,8 +115,8 @@ export class BaseService {
    * ## Example
    * Please refer to get$ function
    */
-  protected delete$<T>(url: string, params?: Record<string, unknown>): Observable<BaseResponse<T>> {
-    return this.http.delete<BaseResponse<T>>(this.serializeUrl(url, params));
+  protected delete$<T>(url: string, params?: Record<string, unknown>): Observable<T> {
+    return this.http.delete<T>(this.serializeUrl(url, params));
   }
 
   /**
@@ -132,10 +132,10 @@ export class BaseService {
    *
    * ```
    */
-  protected async get<T>(url: string, params?: Record<string, unknown>): Promise<BaseResponse<T>> {
+  protected async get<T>(url: string, params?: Record<string, unknown>): Promise<T> {
     return lastValueFrom(
       this.http.get(this.serializeUrl(url, params)),
-    ) as Promise<BaseResponse<T>>;
+    ) as Promise<T>;
   }
 
   /**
@@ -148,10 +148,10 @@ export class BaseService {
     url: string,
     body: Record<string, unknown>,
     params?: Record<string, unknown>,
-  ): Promise<BaseResponse<T>> {
+  ): Promise<T> {
     return lastValueFrom(
       this.http.post(this.serializeUrl(url, params), body),
-    ) as Promise<BaseResponse<T>>;
+    ) as Promise<T>;
   }
 
   /**
@@ -164,10 +164,10 @@ export class BaseService {
     url: string,
     body: Record<string, unknown>,
     params?: Record<string, unknown>,
-  ): Promise<BaseResponse<T>> {
+  ): Promise<T> {
     return lastValueFrom(
       this.http.put(this.serializeUrl(url, params), body),
-    ) as Promise<BaseResponse<T>>;
+    ) as Promise<T>;
   }
 
   /**
@@ -179,10 +179,10 @@ export class BaseService {
   protected async delete<T>(
     url: string,
     params?: Record<string, unknown>,
-  ): Promise<BaseResponse<T>> {
+  ): Promise<T> {
     return lastValueFrom(
       this.http.delete(this.serializeUrl(url, params)),
-    ) as Promise<BaseResponse<T>>;
+    ) as Promise<T>;
   }
 
   /**
@@ -195,8 +195,8 @@ export class BaseService {
     url: string,
     body: Record<string, unknown>,
     params: Record<string, unknown>,
-  ): Observable<BaseResponse<T>> {
-    return this.http.patch<BaseResponse<T>>(
+  ): Observable<T> {
+    return this.http.patch<T>(
       this.serializeUrl(url, params),
       body,
     );
