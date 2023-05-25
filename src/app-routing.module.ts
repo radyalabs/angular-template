@@ -60,6 +60,11 @@ const routes: Routes = [
     path: 'unauthorized',
     component: UnauthorizedComponent,
   },
+  {
+    path: '**',
+    redirectTo: 'not-found',
+    pathMatch: 'full',
+  },
 ];
 
 @NgModule({
