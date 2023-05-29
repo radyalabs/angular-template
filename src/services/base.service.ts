@@ -1,29 +1,39 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router, UrlSerializer } from '@angular/router';
 import {
-  Router, UrlSerializer,
-} from '@angular/router';
+  NgHttpCachingConfig,
+  NgHttpCachingService,
+  NgHttpCachingStrategy,
+} from 'ng-http-caching';
 import { lastValueFrom, Observable } from 'rxjs';
 
 import { AppInjector } from '@/app.module';
 import { environment } from '@/environments/environment';
-import { BaseResponse } from '@/types/base-response.types';
 
 export interface Foo {
   bar: string;
 }
 
+const ngHttpCachingConfig: NgHttpCachingConfig = {
+  lifetime: 1000 * 60, // cache expire after 60 seconds,
+  allowedMethod: ['GET', 'HEAD'],
+  cacheStrategy: NgHttpCachingStrategy.ALLOW_ALL,
+};
+
 @Injectable({
   providedIn: 'root',
 })
-export class BaseService {
+export default class BaseService extends NgHttpCachingService {
   serializer = AppInjector.get(UrlSerializer);
 
   router = AppInjector.get(Router);
 
   baseUrl = environment.apiUrl;
 
-  constructor(public http: HttpClient) {}
+  constructor(public http: HttpClient) {
+    super(ngHttpCachingConfig);
+  }
 
   /**
    * A GET request made by returning httpClient injector Fn as Observable.
@@ -49,7 +59,10 @@ export class BaseService {
    * declared in request.helper.ts for general handling strategy
    *
    */
-  protected get$<T>(url: string, params?: Record<string, unknown>): Observable<T> {
+  protected get$<T>(
+    url: string,
+    params?: Record<string, unknown>,
+  ): Observable<T> {
     return this.http.get<T>(this.serializeUrl(url, params));
   }
 
@@ -67,10 +80,7 @@ export class BaseService {
     body: Record<string, unknown>,
     params?: Record<string, unknown>,
   ): Observable<T> {
-    return this.http.post<T>(
-      this.serializeUrl(url, params),
-      body,
-    );
+    return this.http.post<T>(this.serializeUrl(url, params), body);
   }
 
   /**
@@ -102,10 +112,7 @@ export class BaseService {
     body: Record<string, unknown>,
     params: Record<string, unknown>,
   ): Observable<T> {
-    return this.http.patch<T>(
-      this.serializeUrl(url, params),
-      body,
-    );
+    return this.http.patch<T>(this.serializeUrl(url, params), body);
   }
 
   /**
@@ -115,7 +122,10 @@ export class BaseService {
    * ## Example
    * Please refer to get$ function
    */
-  protected delete$<T>(url: string, params?: Record<string, unknown>): Observable<T> {
+  protected delete$<T>(
+    url: string,
+    params?: Record<string, unknown>,
+  ): Observable<T> {
     return this.http.delete<T>(this.serializeUrl(url, params));
   }
 
@@ -132,7 +142,10 @@ export class BaseService {
    *
    * ```
    */
-  protected async get<T>(url: string, params?: Record<string, unknown>): Promise<T> {
+  protected async get<T>(
+    url: string,
+    params?: Record<string, unknown>,
+  ): Promise<T> {
     return lastValueFrom(
       this.http.get(this.serializeUrl(url, params)),
     ) as Promise<T>;
@@ -196,10 +209,7 @@ export class BaseService {
     body: Record<string, unknown>,
     params: Record<string, unknown>,
   ): Observable<T> {
-    return this.http.patch<T>(
-      this.serializeUrl(url, params),
-      body,
-    );
+    return this.http.patch<T>(this.serializeUrl(url, params), body);
   }
 
   /**

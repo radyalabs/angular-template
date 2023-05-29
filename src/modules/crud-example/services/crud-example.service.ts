@@ -1,6 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
 
-import { BaseService } from '@/services/base.service';
+import BaseService from '@/services/base.service';
 
 import { TodoInterface } from '../interface/todo';
 

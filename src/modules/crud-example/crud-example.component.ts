@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { map,Observable } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 
 import { TodoInterface } from './interface/todo';
 import { CrudExampleService } from './services/crud-example.service';
@@ -14,9 +14,7 @@ export class CrudExampleComponent implements OnInit {
 
   listTodo$ = new Observable<TodoInterface[]>();
 
-  constructor(
-    private crudExampleService: CrudExampleService,
-  ) {}
+  constructor(private crudExampleService: CrudExampleService) {}
 
   ngOnInit(): void {
     this.getPosts();
@@ -33,8 +31,9 @@ export class CrudExampleComponent implements OnInit {
   }
 
   getPosts$() {
-    this.listTodo$ = this.crudExampleService.getObservableTodos().pipe(
-      map((value) => value.splice(0, 10)),
-    );
+    this.listTodo$ = this.crudExampleService
+      .getObservableTodos().pipe(
+        map((data) => data.slice(0, 5)),
+      );
   }
 }

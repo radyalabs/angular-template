@@ -5,9 +5,8 @@ import { AppKey } from '@/enums/key.enum';
 import { deleteCookies, getCookies } from '@/helpers/cookies.helper';
 import { LoginResponse } from '@/modules/login/login.interfaces';
 import { LoginParams } from '@/modules/login/login.types';
-import { BaseResponse } from '@/types/base-response.types';
 
-import { BaseService } from './base.service';
+import BaseService from './base.service';
 
 @Injectable({
   providedIn: 'root',
