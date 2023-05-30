@@ -10,7 +10,7 @@ import { TodoInterface } from '../interface/todo';
 })
 export class CrudExampleService extends BaseService {
   getTodos(): Promise<TodoInterface[]> {
-    return this.get<TodoInterface[]>('/todos', undefined, CrudCacheRequest.LIST_TODO);
+    return this.get<TodoInterface[]>('/todos', undefined, true, CrudCacheRequest.LIST_TODO);
   }
 
   getObservableTodos() {

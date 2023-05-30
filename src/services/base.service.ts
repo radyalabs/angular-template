@@ -39,11 +39,17 @@ export default class BaseService extends NgHttpCachingService {
   /**
    * A GET request made by returning httpClient injector Fn as Observable.
    * @params can be passed and will be automatically converted to URLencoded with serializer
+   * @customCachetTag will be used as a custom tag for cache request, used if you are willing to
+   * delete current cached request for making a new request eg. after Add/ Update/ Delete data
+   * or fulfilling screnario when you need to get an updated data
+   *
+   * !! Cached Request by default only allowed for GET and HEAD
+   * !! change default config for customization
    *
    * ## Example
    *
    * ```ts
-   * this.getData$('my-api', {page: 1, row: 10}).subscribe({
+   * this.getData$('my-api', {page: 1, row: 10}, crudCachedRequest.TODO_LIST).subscribe({
    *   next: (value) => {
    *      console.log({value})
    *   },
@@ -63,12 +69,14 @@ export default class BaseService extends NgHttpCachingService {
   protected get$<T>(
     url: string,
     params?: Record<string, unknown>,
+    storeCache?: boolean,
     customCacheTag?: string,
   ): Observable<T> {
     if (customCacheTag) {
       return this.http.get<T>(this.serializeUrl(url, params), {
         headers: {
           [NgHttpCachingHeaders.TAG]: customCacheTag,
+          [NgHttpCachingHeaders.ALLOW_CACHE]: storeCache ? '1' : '',
         },
       });
     }
@@ -80,6 +88,12 @@ export default class BaseService extends NgHttpCachingService {
    * A POST request made by returning httpClient injector Fn as Observable.
    * @body will be used as request body
    * @params can be used and will be automatically converted to URLencoded with serializer
+   * @customCachetTag will be used as a custom tag for cache request, used if you are willing to
+   * delete current cached request for making a new request eg. after Add/ Update/ Delete data
+   * or fulfilling screnario when you need to get an updated data
+   *
+   * !! Cached Request by default only allowed for GET and HEAD
+   * !! change default config for customization
    *
    * ## Example
    * Please refer to get$ function
@@ -89,12 +103,14 @@ export default class BaseService extends NgHttpCachingService {
     url: string,
     body: Record<string, unknown>,
     params?: Record<string, unknown>,
+    storeCache?: boolean,
     customCacheTag?: string,
   ): Observable<T> {
     if (customCacheTag) {
       return this.http.post<T>(this.serializeUrl(url, params), body, {
         headers: {
           [NgHttpCachingHeaders.TAG]: customCacheTag,
+          [NgHttpCachingHeaders.ALLOW_CACHE]: storeCache ? '1' : '',
         },
       });
     }
@@ -106,6 +122,12 @@ export default class BaseService extends NgHttpCachingService {
    * A PUT request made by returning httpClient injector Fn as Observable.
    * @body will be used as request body
    * @params can be used and will be automatically converted to URLencoded with serializer
+   * @customCachetTag will be used as a custom tag for cache request, used if you are willing to
+   * delete current cached request for making a new request eg. after Add/ Update/ Delete data
+   * or fulfilling screnario when you need to get an updated data
+   *
+   * !! Cached Request by default only allowed for GET and HEAD
+   * !! change default config for customization
    *
    * ## Example
    * Please refer to get$ function
@@ -114,12 +136,14 @@ export default class BaseService extends NgHttpCachingService {
     url: string,
     body: Record<string, unknown>,
     params?: Record<string, unknown>,
+    storeCache?: boolean,
     customCacheTag?: string,
   ): Observable<T> {
     if (customCacheTag) {
       return this.http.put<T>(this.serializeUrl(url, params), body, {
         headers: {
           [NgHttpCachingHeaders.TAG]: customCacheTag,
+          [NgHttpCachingHeaders.ALLOW_CACHE]: storeCache ? '1' : '',
         },
       });
     }
@@ -131,6 +155,12 @@ export default class BaseService extends NgHttpCachingService {
    * A PATCH request made by returning httpClient injector Fn as Observable.
    * @body will be used as request body
    * @params can be used and will be automatically converted to URLencoded with serializer
+   * @customCachetTag will be used as a custom tag for cache request, used if you are willing to
+   * delete current cached request for making a new request eg. after Add/ Update/ Delete data
+   * or fulfilling screnario when you need to get an updated data
+   *
+   * !! Cached Request by default only allowed for GET and HEAD
+   * !! change default config for customization
    *
    * ## Example
    * Please refer to get$ function
@@ -138,13 +168,15 @@ export default class BaseService extends NgHttpCachingService {
   protected patch$<T>(
     url: string,
     body: Record<string, unknown>,
-    params: Record<string, unknown>,
+    params?: Record<string, unknown>,
+    storeCache?: boolean,
     customCacheTag?: string,
   ): Observable<T> {
     if (customCacheTag) {
       return this.http.patch<T>(this.serializeUrl(url, params), body, {
         headers: {
           [NgHttpCachingHeaders.TAG]: customCacheTag,
+          [NgHttpCachingHeaders.ALLOW_CACHE]: storeCache ? '1' : '',
         },
       });
     }
@@ -155,6 +187,12 @@ export default class BaseService extends NgHttpCachingService {
   /**
    * A DELETE request made by returning httpClient injector Fn as Observable.
    * @params can be used and will be automatically converted to URLencoded with serializer
+   * @customCachetTag will be used as a custom tag for cache request, used if you are willing to
+   * delete current cached request for making a new request eg. after Add/ Update/ Delete data
+   * or fulfilling screnario when you need to get an updated data
+   *
+   * !! Cached Request by default only allowed for GET and HEAD
+   * !! change default config for customization
    *
    * ## Example
    * Please refer to get$ function
@@ -162,12 +200,14 @@ export default class BaseService extends NgHttpCachingService {
   protected delete$<T>(
     url: string,
     params?: Record<string, unknown>,
+    storeCache?: boolean,
     customCacheTag?: string,
   ): Observable<T> {
     if (customCacheTag) {
       return this.http.delete<T>(this.serializeUrl(url, params), {
         headers: {
           [NgHttpCachingHeaders.TAG]: customCacheTag,
+          [NgHttpCachingHeaders.ALLOW_CACHE]: storeCache ? '1' : '',
         },
       });
     }
@@ -178,6 +218,12 @@ export default class BaseService extends NgHttpCachingService {
   /**
    * A GET request made by returning httpClient injector Fn as a Promise.
    * @params can be used and will be automatically converted to URLencoded with serializer
+   * @customCachetTag will be used as a custom tag for cache request, used if you are willing to
+   * delete current cached request for making a new request eg. after Add/ Update/ Delete data
+   * or fulfilling screnario when you need to get an updated data
+   *
+   * !! Cached Request by default only allowed for GET and HEAD
+   * !! change default config for customization
    *
    * ## Example
    * ```ts
@@ -191,6 +237,7 @@ export default class BaseService extends NgHttpCachingService {
   protected async get<T>(
     url: string,
     params?: Record<string, unknown>,
+    storeCache?: boolean,
     customCacheTag?: string,
   ): Promise<T> {
     if (customCacheTag) {
@@ -198,6 +245,7 @@ export default class BaseService extends NgHttpCachingService {
         this.http.get(this.serializeUrl(url, params), {
           headers: {
             [NgHttpCachingHeaders.TAG]: customCacheTag,
+            [NgHttpCachingHeaders.ALLOW_CACHE]: storeCache ? '1' : '',
           },
         }),
       ) as Promise<T>;
@@ -212,12 +260,19 @@ export default class BaseService extends NgHttpCachingService {
    * A POST request made by returning httpClient injector Fn as a Promise.
    * @body will be used as request body
    * @params can be used and will be automatically converted to URLencoded with serializer
+   * @customCachetTag will be used as a custom tag for cache request, used if you are willing to
+   * delete current cached request for making a new request eg. after Add/ Update/ Delete data
+   * or fulfilling screnario when you need to get an updated data
+   *
+   * !! Cached Request by default only allowed for GET and HEAD
+   * !! change default config for customization
    *
    */
   protected async post<T>(
     url: string,
     body: Record<string, unknown>,
     params?: Record<string, unknown>,
+    storeCache?: boolean,
     customCacheTag?: string,
   ): Promise<T> {
     if (customCacheTag) {
@@ -225,6 +280,7 @@ export default class BaseService extends NgHttpCachingService {
         this.http.post(this.serializeUrl(url, params), body, {
           headers: {
             [NgHttpCachingHeaders.TAG]: customCacheTag,
+            [NgHttpCachingHeaders.ALLOW_CACHE]: storeCache ? '1' : '',
           },
         }),
       ) as Promise<T>;
@@ -239,12 +295,19 @@ export default class BaseService extends NgHttpCachingService {
    * A PUT request made by returning httpClient injector Fn as a Promise.
    * @body will be used as request body
    * @params can be used and will be automatically converted to URLencoded with serializer
+   * @customCachetTag will be used as a custom tag for cache request, used if you are willing to
+   * delete current cached request for making a new request eg. after Add/ Update/ Delete data
+   * or fulfilling screnario when you need to get an updated data
+   *
+   * !! Cached Request by default only allowed for GET and HEAD
+   * !! change default config for customization
    *
    */
   protected async put<T>(
     url: string,
     body: Record<string, unknown>,
     params?: Record<string, unknown>,
+    storeCache?: boolean,
     customCacheTag?: string,
   ): Promise<T> {
     if (customCacheTag) {
@@ -252,6 +315,7 @@ export default class BaseService extends NgHttpCachingService {
         this.http.put(this.serializeUrl(url, params), body, {
           headers: {
             [NgHttpCachingHeaders.TAG]: customCacheTag,
+            [NgHttpCachingHeaders.ALLOW_CACHE]: storeCache ? '1' : '',
           },
         }),
       ) as Promise<T>;
@@ -266,11 +330,18 @@ export default class BaseService extends NgHttpCachingService {
    * A DELETE request made by returning httpClient injector Fn as a Promise.
    * @body will be used as request body
    * @params can be used and will be automatically converted to URLencoded with serializer
+   * @customCachetTag will be used as a custom tag for cache request, used if you are willing to
+   * delete current cached request for making a new request eg. after Add/ Update/ Delete data
+   * or fulfilling screnario when you need to get an updated data
+   *
+   * !! Cached Request by default only allowed for GET and HEAD
+   * !! change default config for customization
    *
    */
   protected async delete<T>(
     url: string,
     params?: Record<string, unknown>,
+    storeCache?: boolean,
     customCacheTag?: string,
   ): Promise<T> {
     if (customCacheTag) {
@@ -278,6 +349,7 @@ export default class BaseService extends NgHttpCachingService {
         this.http.delete(this.serializeUrl(url, params), {
           headers: {
             [NgHttpCachingHeaders.TAG]: customCacheTag,
+            [NgHttpCachingHeaders.ALLOW_CACHE]: storeCache ? '1' : '',
           },
         }),
       ) as Promise<T>;
@@ -292,18 +364,26 @@ export default class BaseService extends NgHttpCachingService {
    * A PATCH request made by returning httpClient injector Fn as Promise.
    * @body will be used as request body
    * @params can be used and will be automatically converted to URLencoded with serializer
+   * @customCachetTag will be used as a custom tag for cache request, used if you are willing to
+   * delete current cached request for making a new request eg. after Add/ Update/ Delete data
+   * or fulfilling screnario when you need to get an updated data
+   *
+   * !! Cached Request by default only allowed for GET and HEAD
+   * !! change default config for customization
    *
    */
   protected patch<T>(
     url: string,
     body: Record<string, unknown>,
-    params: Record<string, unknown>,
+    params?: Record<string, unknown>,
+    storeCache?: boolean,
     customCacheTag?: string,
   ): Observable<T> {
     if (customCacheTag) {
       return this.http.patch<T>(this.serializeUrl(url, params), body, {
         headers: {
           [NgHttpCachingHeaders.TAG]: customCacheTag,
+          [NgHttpCachingHeaders.ALLOW_CACHE]: storeCache ? '1' : '',
         },
       });
     }
