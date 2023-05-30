@@ -1,28 +1,3 @@
 <div>
-    <div *ngIf="listTodo" class="my-4">
-        <h2 class="font-bold text-1xl mb-1">Get Todos Promise</h2>
-        <div class="pl-5">
-            <ul class="list-disc">
-                <li *ngFor="let todo of listTodo">
-                    {{ todo.title }} <img src="assets/images/checked.png" alt="check-status" *ngIf="todo.completed" style="display: inline-block; width: 15px">
-                </li>
-            </ul>
-        </div>
-    </div>
-
-    <div *ngIf="listTodo$ | async" class="my-4">
-        <h2 class="font-bold text-1xl mb-1">Get Todos Observable</h2>
-        <div class="pl-5">
-            <ul class="list-disc">
-                <li *ngFor="let todo of listTodo$ | async">
-                    {{ todo.title }} <img src="assets/images/checked.png" alt="check-status" *ngIf="todo.completed" style="display: inline-block; width: 15px">
-                </li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="text-right" *ngIf="listTodo">
-        <button class="btn bg-blue-950 text-white px-4 py-2 rounded-md mx-3" (click)="getPosts()" title="Click">Get Data</button>
-        <button class="btn bg-blue-950 text-white px-4 py-2 rounded-md" (click)="cleanCache()" title="Click">Clean Cache</button>
-    </div>
+    <app-todo></app-todo>
 </div>
