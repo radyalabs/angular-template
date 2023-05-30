@@ -20,4 +20,9 @@
             </ul>
         </div>
     </div>
+
+    <div class="text-right" *ngIf="listTodo">
+        <button class="btn bg-blue-950 text-white px-4 py-2 rounded-md mx-3" (click)="getPosts()" title="Click">Get Data</button>
+        <button class="btn bg-blue-950 text-white px-4 py-2 rounded-md" (click)="cleanCache()" title="Click">Clean Cache</button>
+    </div>
 </div>

@@ -2,6 +2,7 @@ import { Injectable, OnInit } from '@angular/core';
 
 import BaseService from '@/services/base.service';
 
+import { CrudCacheRequest } from '../enums/crud-enum';
 import { TodoInterface } from '../interface/todo';
 
 @Injectable({
@@ -9,7 +10,7 @@ import { TodoInterface } from '../interface/todo';
 })
 export class CrudExampleService extends BaseService {
   getTodos(): Promise<TodoInterface[]> {
-    return this.get<TodoInterface[]>('/todos');
+    return this.get<TodoInterface[]>('/todos', undefined, CrudCacheRequest.LIST_TODO);
   }
 
   getObservableTodos() {

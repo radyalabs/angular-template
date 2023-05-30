@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router, UrlSerializer } from '@angular/router';
 import {
   NgHttpCachingConfig,
+  NgHttpCachingHeaders,
   NgHttpCachingService,
   NgHttpCachingStrategy,
 } from 'ng-http-caching';
@@ -62,7 +63,16 @@ export default class BaseService extends NgHttpCachingService {
   protected get$<T>(
     url: string,
     params?: Record<string, unknown>,
+    customCacheTag?: string,
   ): Observable<T> {
+    if (customCacheTag) {
+      return this.http.get<T>(this.serializeUrl(url, params), {
+        headers: {
+          [NgHttpCachingHeaders.TAG]: customCacheTag,
+        },
+      });
+    }
+
     return this.http.get<T>(this.serializeUrl(url, params));
   }
 
@@ -79,7 +89,16 @@ export default class BaseService extends NgHttpCachingService {
     url: string,
     body: Record<string, unknown>,
     params?: Record<string, unknown>,
+    customCacheTag?: string,
   ): Observable<T> {
+    if (customCacheTag) {
+      return this.http.post<T>(this.serializeUrl(url, params), body, {
+        headers: {
+          [NgHttpCachingHeaders.TAG]: customCacheTag,
+        },
+      });
+    }
+
     return this.http.post<T>(this.serializeUrl(url, params), body);
   }
 
@@ -95,7 +114,16 @@ export default class BaseService extends NgHttpCachingService {
     url: string,
     body: Record<string, unknown>,
     params?: Record<string, unknown>,
+    customCacheTag?: string,
   ): Observable<T> {
+    if (customCacheTag) {
+      return this.http.put<T>(this.serializeUrl(url, params), body, {
+        headers: {
+          [NgHttpCachingHeaders.TAG]: customCacheTag,
+        },
+      });
+    }
+
     return this.http.put<T>(this.serializeUrl(url, params), body);
   }
 
@@ -111,7 +139,16 @@ export default class BaseService extends NgHttpCachingService {
     url: string,
     body: Record<string, unknown>,
     params: Record<string, unknown>,
+    customCacheTag?: string,
   ): Observable<T> {
+    if (customCacheTag) {
+      return this.http.patch<T>(this.serializeUrl(url, params), body, {
+        headers: {
+          [NgHttpCachingHeaders.TAG]: customCacheTag,
+        },
+      });
+    }
+
     return this.http.patch<T>(this.serializeUrl(url, params), body);
   }
 
@@ -125,7 +162,16 @@ export default class BaseService extends NgHttpCachingService {
   protected delete$<T>(
     url: string,
     params?: Record<string, unknown>,
+    customCacheTag?: string,
   ): Observable<T> {
+    if (customCacheTag) {
+      return this.http.delete<T>(this.serializeUrl(url, params), {
+        headers: {
+          [NgHttpCachingHeaders.TAG]: customCacheTag,
+        },
+      });
+    }
+
     return this.http.delete<T>(this.serializeUrl(url, params));
   }
 
@@ -145,7 +191,18 @@ export default class BaseService extends NgHttpCachingService {
   protected async get<T>(
     url: string,
     params?: Record<string, unknown>,
+    customCacheTag?: string,
   ): Promise<T> {
+    if (customCacheTag) {
+      return lastValueFrom(
+        this.http.get(this.serializeUrl(url, params), {
+          headers: {
+            [NgHttpCachingHeaders.TAG]: customCacheTag,
+          },
+        }),
+      ) as Promise<T>;
+    }
+
     return lastValueFrom(
       this.http.get(this.serializeUrl(url, params)),
     ) as Promise<T>;
@@ -161,7 +218,18 @@ export default class BaseService extends NgHttpCachingService {
     url: string,
     body: Record<string, unknown>,
     params?: Record<string, unknown>,
+    customCacheTag?: string,
   ): Promise<T> {
+    if (customCacheTag) {
+      return lastValueFrom(
+        this.http.post(this.serializeUrl(url, params), body, {
+          headers: {
+            [NgHttpCachingHeaders.TAG]: customCacheTag,
+          },
+        }),
+      ) as Promise<T>;
+    }
+
     return lastValueFrom(
       this.http.post(this.serializeUrl(url, params), body),
     ) as Promise<T>;
@@ -177,7 +245,18 @@ export default class BaseService extends NgHttpCachingService {
     url: string,
     body: Record<string, unknown>,
     params?: Record<string, unknown>,
+    customCacheTag?: string,
   ): Promise<T> {
+    if (customCacheTag) {
+      return lastValueFrom(
+        this.http.put(this.serializeUrl(url, params), body, {
+          headers: {
+            [NgHttpCachingHeaders.TAG]: customCacheTag,
+          },
+        }),
+      ) as Promise<T>;
+    }
+
     return lastValueFrom(
       this.http.put(this.serializeUrl(url, params), body),
     ) as Promise<T>;
@@ -192,7 +271,18 @@ export default class BaseService extends NgHttpCachingService {
   protected async delete<T>(
     url: string,
     params?: Record<string, unknown>,
+    customCacheTag?: string,
   ): Promise<T> {
+    if (customCacheTag) {
+      return lastValueFrom(
+        this.http.delete(this.serializeUrl(url, params), {
+          headers: {
+            [NgHttpCachingHeaders.TAG]: customCacheTag,
+          },
+        }),
+      ) as Promise<T>;
+    }
+
     return lastValueFrom(
       this.http.delete(this.serializeUrl(url, params)),
     ) as Promise<T>;
@@ -208,7 +298,16 @@ export default class BaseService extends NgHttpCachingService {
     url: string,
     body: Record<string, unknown>,
     params: Record<string, unknown>,
+    customCacheTag?: string,
   ): Observable<T> {
+    if (customCacheTag) {
+      return this.http.patch<T>(this.serializeUrl(url, params), body, {
+        headers: {
+          [NgHttpCachingHeaders.TAG]: customCacheTag,
+        },
+      });
+    }
+
     return this.http.patch<T>(this.serializeUrl(url, params), body);
   }
 
