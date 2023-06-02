@@ -1,0 +1,109 @@
+<div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+  <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+    <div class="overflow-hidden">
+      <table class="min-w-full text-left text-sm font-light bg-white">
+        <thead class="border-b font-medium dark:border-neutral-500">
+          <tr>
+            <th scope="col" class="px-6 py-4 w-12 hover:bg-gray-50">#</th>
+            <ng-container *ngFor="let column of tableColumn">
+              <th
+                scope="col"
+                class="px-6 py-4 hover:bg-gray-50"
+                [ngClass]="column.activeSort ? 'cursor-pointer' : ''"
+                (click)="
+                  column.activeSort ? bindSortedColumn(column.colName) : null
+                "
+              >
+                {{ column.colName }}
+                <ng-container *ngIf="column.activeSort && column.colName === currentSortedColumn.colName; else unsortedCol">
+                  <i
+                    [ngClass]="[
+                      'inline-block w-4 ml-1 cursor-pointer',
+                      currentSortedColumn.colName === column.colName
+                        ? 'opacity-100'
+                        : 'opacity-30'
+                    ]"
+                  >
+                  <div [ngSwitch]="currentSortedColumn.sortType">
+                      <img
+                        width="24"
+                        height="24"
+                        src="assets/icons/sort-icon-asc.svg"
+                        alt="sort"
+                        *ngSwitchCase="'asc'"
+                      />
+                      <img
+                        width="24"
+                        height="24"
+                        src="assets/icons/sort-icon-desc.svg"
+                        alt="sort"
+                        *ngSwitchCase="'desc'"
+                      />
+                      
+                      <img
+                        width="24"
+                        height="24"
+                        src="assets/icons/sort-icon.svg"
+                        alt="sort"
+                        *ngSwitchDefault
+                      />
+                    </div>
+                  </i>
+                </ng-container>
+
+                <ng-template #unsortedCol>
+                  <i
+                    class="inline-block w-4 ml-1 cursor-pointer opacity-30"
+                  >
+                  <img
+                    width="24"
+                    height="24"
+                    src="assets/icons/sort-icon.svg"
+                    alt="sort"
+                  />
+                  </i>
+                </ng-template>
+              </th>
+            </ng-container>
+            <th scope="col" class="px-6 py-4 hover:bg-gray-50">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            class="border-b hover:bg-gray-50 dark:border-neutral-500"
+            *ngFor="let data of tableData; index as i"
+          >
+            <td class="whitespace-nowrap px-6 py-4 font-medium">{{ i + 1 }}</td>
+            <td class="whitespace-nowrap px-6 py-4">{{ data.firstProps }}</td>
+            <td class="whitespace-nowrap px-6 py-4">{{ data.secondsProps }}</td>
+            <td class="whitespace-nowrap px-6">
+              <ng-container *ngFor="let action of data.action">
+                <button
+                  class="px-4 py-2 text-xs rounded-md mx-1"
+                  [ngClass]="action.actionClass"
+                  (click)="action.function()"
+                >
+                  {{ action.actionName }}
+                </button>
+              </ng-container>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ng-container *ngIf="footerActions.length > 0">
+        <div class="w-100 text-right p-3">
+          <button
+            class="px-6 py-2 rounded-md transition-all"
+            *ngFor="let button of footerActions"
+            [ngClass]="
+              button.actionClass
+            "
+          >
+            {{ button.actionName }}
+          </button>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>
