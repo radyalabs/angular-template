@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://jsonplaceholder.typicode.com',
+  apiUrl: 'https://rad-basepro-api.azurewebsites.net',
 
   // apiUrl: 'http://202.157.187.204:8071',
 

@@ -57,24 +57,7 @@ export class TableComponent implements OnInit {
     actionName: string;
     actionClass: string;
     function: () => void;
-  }[] = [
-      {
-        actionName: 'Add',
-        actionClass: 'bg-blue-950 text-white',
-        function: () => {
-        // eslint-disable-next-line no-console
-          console.log('Add action');
-        },
-      },
-      {
-        actionName: 'Clear',
-        actionClass: 'bg-red-950 text-white ml-3',
-        function: () => {
-        // eslint-disable-next-line no-console
-          console.log('Add action');
-        },
-      },
-    ];
+  }[] = [];
 
   @Input() withAction = true;
 
