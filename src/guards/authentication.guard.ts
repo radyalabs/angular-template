@@ -10,7 +10,7 @@ import {
 import { Observable } from 'rxjs';
 
 import { AppKey } from '@/enums/key.enum';
-import { getCookies } from '@/helpers/cookies.helper';
+import { deleteCookies } from '@/helpers/cookies.helper';
 import { AuthenticationService } from '@/services/authentication.service';
 
 @Injectable({
@@ -30,12 +30,7 @@ export class AuthenticationGuard implements CanActivate, CanActivateChild {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    const currentTime = new Date().getTime();
-    const currentSession = Number(
-      getCookies(AppKey.expiresIn),
-    );
-
-    return this.authService.isLoggedIn() // && (currentTime < currentSession) // use for session
+    return this.authService.isLoggedIn() && this.authService.checkSession()
       ? true
       : this.unauthorizedHandler(route, state);
   }
@@ -60,7 +55,7 @@ export class AuthenticationGuard implements CanActivate, CanActivateChild {
     };
     this.router.navigate(['/login'], { queryParams: params }).then(() => {
       alert('Please login');
-      localStorage.clear();
+      deleteCookies([AppKey.accessToken, AppKey.refreshToken, AppKey.userId, AppKey.expiresIn]);
     });
 
     return false;

@@ -13,17 +13,16 @@ import BaseService from './base.service';
 })
 export class AuthenticationService extends BaseService {
   isLoggedIn(): boolean {
-    return !!getCookies(AppKey.token);
+    return !!getCookies(AppKey.accessToken);
   }
 
   login(body: LoginParams): Observable<LoginResponse> {
-    return this.post$<LoginResponse>('/api/auth/login', body, {
-      culture: 'id-ID',
-    });
+    return this.post$<LoginResponse>('/api/identity/sign-in', body, undefined, false);
   }
 
   logout() {
-    return deleteCookies([AppKey.token, AppKey.expiresIn]);
+    const keyToDelete = [AppKey.accessToken, AppKey.refreshToken, AppKey.userId, AppKey.expiresIn];
+    deleteCookies(keyToDelete);
   }
 
   getData$() {
@@ -32,5 +31,18 @@ export class AuthenticationService extends BaseService {
 
   getData() {
     return this.get('/users');
+  }
+
+  checkSession(): boolean {
+    const accessToken = getCookies(AppKey.accessToken);
+    const refreshToken = getCookies(AppKey.refreshToken);
+    const userId = getCookies(AppKey.userId);
+
+    const currentTime = new Date().getTime();
+    const currentSession = Number(
+      getCookies(AppKey.expiresIn),
+    );
+
+    return (!!accessToken && !!refreshToken && !!userId) && currentTime <= currentSession;
   }
 }

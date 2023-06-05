@@ -1,4 +1,6 @@
 export enum AppKey {
-  token = 'TOKEN',
-  expiresIn = 'EXP',
+  accessToken = 'T',
+  refreshToken = 'RT',
+  expiresIn = 'EX',
+  userId = 'UID',
 }

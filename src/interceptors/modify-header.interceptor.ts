@@ -18,7 +18,7 @@ export class ModifyHeaderInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<unknown>> {
     const modifiedRequest = request.clone({
       setHeaders: {
-        Authorization: getCookies(AppKey.token),
+        Authorization: `Bearer ${getCookies(AppKey.accessToken)}`,
       },
     });
     return next.handle(modifiedRequest);
