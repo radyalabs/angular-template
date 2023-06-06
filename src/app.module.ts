@@ -11,6 +11,7 @@ import {
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { ComponentProviderModule } from './component-provider.module';
 import { ErrorHandlerInterceptor } from './interceptors/error-handler.interceptor';
 import { ModifyHeaderInterceptor } from './interceptors/modify-header.interceptor';
 import { LoginComponent } from './modules/login/login.component';
@@ -42,6 +43,7 @@ export let AppInjector: Injector;
     ReactiveFormsModule,
     NgHttpCachingModule.forRoot(ngHttpCachingConfig),
     BrowserAnimationsModule,
+    ComponentProviderModule,
   ],
   providers: [
     {

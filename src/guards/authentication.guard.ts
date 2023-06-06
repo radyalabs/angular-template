@@ -9,9 +9,8 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { AppKey } from '@/enums/key.enum';
-import { deleteCookies } from '@/helpers/cookies.helper';
 import { AuthenticationService } from '@/services/authentication.service';
+import { SnackbarService } from '@/services/components/snackbar.service';
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +19,7 @@ export class AuthenticationGuard implements CanActivate, CanActivateChild {
   constructor(
     private authService: AuthenticationService,
     private router: Router,
+    private snackbarService: SnackbarService,
   ) {}
 
   canActivate(
@@ -54,8 +54,8 @@ export class AuthenticationGuard implements CanActivate, CanActivateChild {
       redirectTo: state.url,
     };
     this.router.navigate(['/login'], { queryParams: params }).then(() => {
-      alert('Please login');
-      deleteCookies([AppKey.accessToken, AppKey.refreshToken, AppKey.userId, AppKey.expiresIn]);
+      this.snackbarService.create('You are unauthorized', 'Ok', { duration: 5000 });
+      this.authService.logout();
     });
 
     return false;

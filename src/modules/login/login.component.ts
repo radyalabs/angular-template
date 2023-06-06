@@ -10,12 +10,11 @@ import {
   Params,
   Router,
 } from '@angular/router';
-import jwtDecode from 'jwt-decode';
 
 import { AppKey } from '@/enums/key.enum';
 import { setCookies } from '@/helpers/cookies.helper';
-import { storeLocalStorageKeys } from '@/helpers/localStorage.helper';
 import { AuthenticationService } from '@/services/authentication.service';
+import { SnackbarService } from '@/services/components/snackbar.service';
 import { StorageTypes } from '@/types/storage-types';
 
 @Component({
@@ -35,6 +34,7 @@ export class LoginComponent implements OnInit {
     private authService: AuthenticationService,
     private router: Router,
     private route: ActivatedRoute,
+    private snackbarService: SnackbarService,
   ) {}
 
   ngOnInit(): void {
@@ -124,7 +124,15 @@ export class LoginComponent implements OnInit {
 
   checkAnyActiveSession(): void {
     if (this.authService.checkSession()) {
-      this.router.navigate(['/dashboard']);
+      setTimeout(() => {
+        this.snackbarService.create('Welcome back!', '', {
+          duration: 3000,
+        });
+
+        this.router.navigate(['/dashboard']);
+      }, 1000);
+    } else {
+      this.authService.logout();
     }
   }
 }
