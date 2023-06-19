@@ -30,7 +30,7 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: 'user',
+        redirectTo: 'periodic-table',
         pathMatch: 'full',
       },
     ],

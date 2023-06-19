@@ -1,6 +1,13 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -86,6 +93,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
     MatTableModule,
     MatFormFieldModule,
     MatInputModule,
@@ -95,22 +103,28 @@ const ELEMENT_DATA: PeriodicElement[] = [
     MatCheckboxModule,
   ],
 })
-export class TableMaterialComponent implements AfterViewInit {
-  displayedColumns: string[] = [
-    'select',
-    'position',
-    'name',
-    'weight',
-    'symbol',
-  ];
+export class TableMaterialComponent implements OnInit, AfterViewInit {
+  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
 
   dataSource = new MatTableDataSource(ELEMENT_DATA);
 
   selection = new SelectionModel<PeriodicElement>(true, []);
 
+  searchValue = '';
+
   @ViewChild(MatPaginator) public paginator!: MatPaginator;
 
   @ViewChild(MatSort) public sort!: MatSort;
+
+  @Input() showSearch!: boolean;
+
+  @Input() showCheckbox!: boolean;
+
+  ngOnInit(): void {
+    if (this.showCheckbox) {
+      this.displayedColumns.unshift('select');
+    }
+  }
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
