@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { PeriodicTableComponent } from './components/periodic-table/periodic-table.component';
 import { PostComponent } from './components/post/post.component';
 import { PostAddComponent } from './components/post-add/post-add.component';
+import { UserHomeComponent } from './components/user-home/user-home.component';
 import { CrudExampleComponent } from './crud-example.component';
 
 const routes: Routes = [
@@ -11,14 +13,24 @@ const routes: Routes = [
     component: CrudExampleComponent,
     children: [
       {
-        path: 'post', component: PostComponent,
+        path: 'user',
+        component: UserHomeComponent,
       },
       {
-        path: 'post-add', component: PostAddComponent,
+        path: 'periodic-table',
+        component: PeriodicTableComponent,
+      },
+      {
+        path: 'post',
+        component: PostComponent,
+      },
+      {
+        path: 'post-add',
+        component: PostAddComponent,
       },
       {
         path: '',
-        redirectTo: 'post',
+        redirectTo: 'user',
         pathMatch: 'full',
       },
     ],
@@ -29,4 +41,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class CrudExampleRoutingModule { }
+export class CrudExampleRoutingModule {}
