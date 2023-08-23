@@ -106,7 +106,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 export class TableMaterialComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
 
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
+  dataSourceTable = new MatTableDataSource(ELEMENT_DATA);
 
   selection = new SelectionModel<PeriodicElement>(true, []);
 
@@ -120,6 +120,8 @@ export class TableMaterialComponent implements OnInit, AfterViewInit {
 
   @Input() showCheckbox!: boolean;
 
+  @Input() dataSource!: unknown;
+
   ngOnInit(): void {
     if (this.showCheckbox) {
       this.displayedColumns.unshift('select');
@@ -127,24 +129,28 @@ export class TableMaterialComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    this.dataSourceTable.paginator = this.paginator;
+    this.dataSourceTable.sort = this.sort;
+
+    if (this.dataSource) {
+      this.dataSourceTable = new MatTableDataSource(this.dataSource as any);
+    }
   }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.dataSourceTable.filter = filterValue.trim().toLowerCase();
   }
 
   getTotalWeight() {
-    const weightList = this.dataSource.data.map((data) => data.weight);
+    const weightList = this.dataSourceTable.data.map((data) => data.weight);
 
     return weightList.reduce((prev, current) => prev + current, 0);
   }
 
   isAllSelected() {
     const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
+    const numRows = this.dataSourceTable.data.length;
     return numSelected === numRows;
   }
 
@@ -154,7 +160,7 @@ export class TableMaterialComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    this.selection.select(...this.dataSource.data);
+    this.selection.select(...this.dataSourceTable.data);
   }
 
   checkboxLabel(row?: PeriodicElement): string {
